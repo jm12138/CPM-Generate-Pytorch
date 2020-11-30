@@ -1,5 +1,5 @@
 # CPM-Generate-Pytorch
-本Repo将模型转换为Pytorch单卡版本，原Repo https://github.com/TsinghuaAI/CPM-Generate
+本Repo将模型转换为Pytorch单卡/CPU可运行的版本，原Repo https://github.com/TsinghuaAI/CPM-Generate
 
 原项目首页：https://cpm.baai.ac.cn/
 
@@ -18,7 +18,7 @@ $ cd CPM-Generate-Pytorch
 ```
 
 * 准备模型
-* 合并版模型暂未上传完成，所以请参考[转换代码](https://github.com/jm12138/CPM-Generate-Pytorch/blob/main/convert.py)使用原版模型自行进行转换合并
+  * 合并版模型暂未上传完成，所以请参考[转换代码](https://github.com/jm12138/CPM-Generate-Pytorch/blob/main/convert.py)使用原版模型自行进行转换合并
 
 * 安装依赖
 ```
