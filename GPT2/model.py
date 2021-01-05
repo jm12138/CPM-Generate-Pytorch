@@ -55,7 +55,7 @@ class Attention(nn.Module):
         attn = attn / math.sqrt(self.size_per_head)
 
         # [L, S]
-        attention_mask = torch.tril(torch.ones(self.seq_len, self.seq_len, dtype=torch.float32))
+        attention_mask = torch.tril(torch.ones(self.seq_len, self.seq_len, dtype=torch.float32, device=x.device))
         attention_mask = attention_mask.reshape([1, 1, self.seq_len, self.seq_len])
 
         # adding to softmax -> its like removing them entirely
@@ -148,7 +148,7 @@ class GPT2Model(nn.Module):
             past_length = 0
         else:
             past_length = kv_cache[0][0].shape[-2]
-        position_ids = torch.arange(past_length, x.shape[-1] + past_length, dtype=torch.int64)
+        position_ids = torch.arange(past_length, x.shape[-1] + past_length, dtype=torch.int64, device=x.device)
         position_ids = position_ids.unsqueeze(0).expand_as(x)
         # print(position_ids)
         x = self.word_embeddings(x)
