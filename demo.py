@@ -2,6 +2,8 @@ import torch
 import numpy as np
 from GPT2 import GPT2Model, GPT2Tokenizer
 
+device = 'cpu' #'cuda'
+
 model = GPT2Model(
     vocab_size=30000,
     layer_size=32,
@@ -15,7 +17,7 @@ model = GPT2Model(
 state_dict = torch.load('save.pth', map_location='cpu')
 
 model.load_state_dict(state_dict)
-
+model.to(device)
 model.eval()
 
 tokenizer = GPT2Tokenizer(
@@ -25,15 +27,15 @@ tokenizer = GPT2Tokenizer(
 
 def sample(text, max_len=10):
     ids = tokenizer.encode(text)
-    input_id = torch.tensor((np.array(ids).reshape(1, -1).astype('int64')))
+    input_id = torch.tensor((np.array(ids).reshape(1, -1).astype('int64'))).to(device)
     output, cached_kvs = model(input_id, use_cache=True)
-    nid = int(np.argmax(output[0, -1].detach().numpy()))
+    nid = int(np.argmax(output[0, -1].detach().cpu().numpy()))
     ids += [nid]
     out = [nid]
     for i in range(max_len):
-        input_id = torch.tensor(np.array([nid]).reshape(1, -1).astype('int64'))
+        input_id = torch.tensor(np.array([nid]).reshape(1, -1).astype('int64')).to(device)
         output, cached_kvs = model(input_id, cached_kvs, use_cache=True)
-        nid = int(np.argmax(output[0, -1].detach().numpy()))
+        nid = int(np.argmax(output[0, -1].detach().cpu().numpy()))
         ids += [nid]
         if nid==3:
             break
